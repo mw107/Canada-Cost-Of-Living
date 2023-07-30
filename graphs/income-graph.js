@@ -111,8 +111,8 @@ var loadIncomePricesGraph = () => {
             Tooltip
               .style("opacity", 1)
               .html(`Average Income: $${d.value.toLocaleString()}<br>Year: ${d.date.getFullYear()}`)
-              .style("left", (d3.mouse(this)[0] + 115) + "px")
-              .style("top", (d3.mouse(this)[1] + 100) + "px")
+              .style("left", (d3.mouse(this)[0] - 15) + "px")
+              .style("top", (d3.mouse(this)[1] - 80) + "px")
             
             d3.select(this)
               .attr("r", 6)

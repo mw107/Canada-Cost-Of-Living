@@ -110,8 +110,8 @@ const loadGasPricesGraph = () => {
             Tooltip
               .style("opacity", 1)
               .html(`Average New Car Price: $${d.value.toLocaleString()}<br>Date: ${d.date.toLocaleString("default", { month: "long", year: "numeric" })}`)
-              .style("left", (d3.mouse(this)[0] + 100) + "px")
-              .style("top", (d3.mouse(this)[1] + 100) + "px")
+              .style("left", (d3.mouse(this)[0] - 40) + "px")
+              .style("top", (d3.mouse(this)[1] - 80) + "px")
             
             d3.select(this)
               .attr("r", 6)
