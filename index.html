@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ontario Cost of Living</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
@@ -15,17 +17,35 @@
     <script src="./graphs/house-price-graph.js"></script>
   </head>
   <body style="background-color:#e5e5e5;">
-    <div class="container">
-      <div class="row" style="display: flex; justify-content: center;">
-        <nav aria-label="Page navigation" style="display: flex; justify-content: center;">
+    <div id="main-container" class="container">
+      <div id="jumbotron" class="jumbotron">
+        <h1 class="display-4">Ontario Cost of Living</h1>
+        <p class="lead">Is life really easier for Generation Z?</p>
+        <hr class="my-4">
+        <p>
+          Growing up, my parents always told me how much better and easier my life was compared to older generations. 
+          Although it is true that we have better healthcare, technology, and more abundant food, they often fail to realize how much harder it is to afford a higher quality of life.
+        </p>
+        <p>
+          This narrative visualization aims to show the astronomical increase in the cost of living compared to the slow growth in income. 
+          The data shown here is for my home province of Ontario, Canada, and all monetary values are in Canadian Dollars.
+        </p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="#" role="button" onclick="handleStartClick()">Start</a>
+        </p>
+      </div>
+      <div id="main-content" class="row" style="display: none; justify-content: center;">
+        <div id="datatext" class="row" style="display: flex; justify-content: center;">
+        </div>
+        <nav aria-label="Page navigation" style="display: flex; justify-content: center; margin-top: 20px;">
           <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item" onclick="loadIncomePricesGraph()"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li id="previous" class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li id="page-1" class="page-item"><a class="page-link" href="#">1</a></li>
+            <li id="page-2" class="page-item"><a class="page-link" href="#">2</a></li>
+            <li id="page-3" class="page-item"><a class="page-link" href="#">3</a></li>
+            <li id="page-4" class="page-item"><a class="page-link" href="#">4</a></li>
+            <li id="page-5" class="page-item"><a class="page-link" href="#">5</a></li>
+            <li id="next" class="page-item"><a class="page-link" href="#">Next</a></li>
           </ul>
         </nav>
       </div>
@@ -33,5 +53,87 @@
         <div id="dataviz" style="display: flex; justify-content: center;"></div>
       </div>
     </div>
+    <script>
+      var page = 1;
+
+      function handleStartClick() {
+        document.getElementById("main-content").setAttribute("style", "display: flex; justify-content: center;");
+        document.getElementById("jumbotron").setAttribute("style", "display: none;");
+        page1Button.classList.add("active");
+        loadIncomePricesGraph();
+      }
+
+      var previousButton = document.getElementById("previous");
+      var page1Button = document.getElementById("page-1");
+      var page2Button = document.getElementById("page-2");
+      var page3Button = document.getElementById("page-3");
+      var page4Button = document.getElementById("page-4");
+      var page5Button = document.getElementById("page-5");
+      var nextButton = document.getElementById("next");
+
+      function removeActives() {
+        var buttons = document.querySelectorAll(".page-item");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].classList.remove("active");
+        }
+      }
+
+      page1Button.addEventListener("click", function(){
+        if (page != 1) {
+          removeActives();
+          page1Button.classList.add("active");
+          loadIncomePricesGraph();
+          page = 1;
+        }
+      }, false);
+
+      page2Button.addEventListener("click", function(){
+        if (page != 2) {
+          removeActives();
+          page2Button.classList.add("active");
+          loadEggPricesGraph()
+          page = 2;
+        }
+      }, false);
+
+      page3Button.addEventListener("click", function(){
+        if (page != 3) {
+          removeActives();
+          page3Button.classList.add("active");
+          loadGasPricesGraph()
+          page = 3;
+        }
+      }, false);
+
+      page4Button.addEventListener("click", function(){
+        if (page != 4) {
+          removeActives();
+          page4Button.classList.add("active");
+          loadCarPricesGraph()
+          page = 4;
+        }
+      }, false);
+
+      page5Button.addEventListener("click", function(){
+        if (page != 5) {
+          removeActives();
+          page5Button.classList.add("active");
+          loadHousePricesGraph()
+          page = 5;
+        }
+      }, false);
+
+      previousButton.addEventListener("click", function(){
+        if (page != 1) {
+          const pageButton = document.getElementById(`page-${page - 1}`).click();
+        }
+      }, false);
+
+      nextButton.addEventListener("click", function(){
+        if (page != 5) {
+          const pageButton = document.getElementById(`page-${page + 1}`).click();
+        }
+      }, false);
+    </script>
   </body>
 </html>

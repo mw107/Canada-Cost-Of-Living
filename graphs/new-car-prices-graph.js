@@ -1,6 +1,20 @@
 const loadCarPricesGraph = () => {
   const dataNode = document.getElementById("dataviz");
   dataNode.innerHTML = "";
+
+  const textNode = document.getElementById("datatext");
+  textNode.innerHTML = `
+    <span style="display: flex; justify-content: center; font-family: Nunito; font-size: 30px; font-style: bold; font-variant: normal; font-weight: 700; line-height: 50px;">
+      Average New Car Prices
+    </span>
+    <span style="display: flex; justify-content: center; font-family: PT Sans; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 24px;">
+      The average price for a new car in Ontario was $32,727 in 2008 and has increased to $56,924 by May 2023.
+    </span>
+    <span style="display: flex; justify-content: center; font-family: PT Sans; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 24px;">
+      This represents a growth of 73.9% over this period.
+    </span>
+  `
+
   var margin = {top: 10, right: 50, bottom: 50, left: 80}
   var width = 1000 - margin.left - margin.right
   var height = 600 - margin.top - margin.bottom;
@@ -96,8 +110,8 @@ const loadCarPricesGraph = () => {
             Tooltip
               .style("opacity", 1)
               .html(`Average New Car Price: $${d.value.toLocaleString()}<br>Date: ${d.date.toLocaleString("default", { month: "long", year: "numeric" })}`)
-              .style("left", (d3.mouse(this)[0] + 70) + "px")
-              .style("top", (d3.mouse(this)[1] + - 50) + "px")
+              .style("left", (d3.mouse(this)[0] + 80) + "px")
+              .style("top", (d3.mouse(this)[1] + 100) + "px")
             
             d3.select(this)
               .attr("r", 6)
