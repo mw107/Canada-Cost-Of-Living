@@ -1,4 +1,4 @@
-const loadEggPricesGraph = () => {
+const loadCarPricesGraph = () => {
   const dataNode = document.getElementById("dataviz");
   dataNode.innerHTML = "";
   var margin = {top: 10, right: 50, bottom: 50, left: 80}
@@ -15,15 +15,15 @@ const loadEggPricesGraph = () => {
 
   var animatedPath = svg.append("path")
     .attr("fill", "none")
-    .attr("stroke", "#ff595e")
+    .attr("stroke", "#8ac926")
     .attr("stroke-width", 1.5)
 
   var animatedAnnotations = svg.append('g')
     .style("opacity", 0);
 
-  d3.csv("./data/egg-prices.csv",
+  d3.csv("./data/new-car-prices.csv",
     function(d){
-      return { date : d3.timeParse("%B %Y")(d.date), value : d.price }
+      return { date : d3.timeParse("%B %Y")(d.date), value : (parseFloat(d.sum_price.replaceAll(',', '')) / parseFloat(d.units.replaceAll(',', ''))) * 1000 }
     },
     function(data) {
       var x = d3.scaleTime()
@@ -41,7 +41,7 @@ const loadEggPricesGraph = () => {
         .text("Year");
 
       var y = d3.scaleLinear()
-        .domain([1, 5])
+        .domain([10000, 70000])
         .range([ height, 0 ]);
       svg.append("g")
         .call(d3.axisLeft(y).tickFormat(d3.format("$,.2f")));
@@ -50,9 +50,9 @@ const loadEggPricesGraph = () => {
         .attr("class", "axis-title")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
-        .attr("y", -margin.left + 25)
+        .attr("y", -margin.left + 15)
         .style("text-anchor", "middle")
-        .text("Average Egg Prices ($/Dozen)");
+        .text("Average New Car Price");
 
       var line = d3.line()
         .x(function(d) { return x(d.date) })
@@ -71,7 +71,7 @@ const loadEggPricesGraph = () => {
         .attr("cx", function(d) { return x(d.date) } )
         .attr("cy", function(d) { return y(d.value) } )
         .attr("r", 5)
-        .attr("fill", "#ff595e")
+        .attr("fill", "#8ac926")
         .style("opacity", 0);
       
       animatedPath
@@ -93,26 +93,26 @@ const loadEggPricesGraph = () => {
             .style("opacity", 1);
           
           animatedDots.on("mouseover", function(d) {
-              Tooltip
-                .style("opacity", 1)
-                .html(`Average Egg Prices ($/Dozen): $${d.value.toLocaleString()}<br>Date: ${d.date.toLocaleString("default", { month: "long", year: "numeric" })}`)
-                .style("left", (d3.mouse(this)[0] + 70) + "px")
-                .style("top", (d3.mouse(this)[1] + - 50) + "px")
-              
-              d3.select(this)
-                .attr("r", 6)
-                .attr("fill", "#ff595e"); 
-            })
-            .on("mouseleave", function(d) {
-              Tooltip
-                .style("opacity", 0)
-                .transition()
-                .duration(100)
-        
-              d3.select(this)
-                .attr("r", 5)
-                .attr("fill", "#ff595e")
-            });
+            Tooltip
+              .style("opacity", 1)
+              .html(`Average New Car Price: $${d.value.toLocaleString()}<br>Date: ${d.date.toLocaleString("default", { month: "long", year: "numeric" })}`)
+              .style("left", (d3.mouse(this)[0] + 70) + "px")
+              .style("top", (d3.mouse(this)[1] + - 50) + "px")
+            
+            d3.select(this)
+              .attr("r", 6)
+              .attr("fill", "#8ac926"); 
+          })
+          .on("mouseleave", function(d) {
+            Tooltip
+              .style("opacity", 0)
+              .transition()
+              .duration(100)
+      
+            d3.select(this)
+              .attr("r", 5)
+              .attr("fill", "#8ac926")
+          });
         });
       
       var Tooltip = d3.select("#dataviz")
@@ -140,7 +140,7 @@ const loadEggPricesGraph = () => {
             },
             x: x(data[0].date),
             y: y(data[0].value),
-            dx: 30,
+            dx: 60,
             dy: 60,
           },
           {
@@ -154,8 +154,8 @@ const loadEggPricesGraph = () => {
             },
             x: x(data[data.length - 1].date),
             y: y(data[data.length - 1].value),
-            dx: -30,
-            dy: 60,
+            dx: -60,
+            dy: 120,
           },
         ])
   })
